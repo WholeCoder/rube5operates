@@ -30,16 +30,16 @@ func main() {
 	})
 
 	probabilityKeys := hashForDecompression.Keys()
-	probabilityValues := hashForDecompression.Values()
-	//for _, key := range probabilityKeys {
-	//	value, _ := probabilityKeys.Get(key)
-	//	probabilityValues = append(probabilityValues, value)
-	//
+	probabilityValues := []float64{}
+	for _, key := range probabilityKeys {
+		value, _ := hashForDecompression.Get(key)
+		probabilityValues = append(probabilityValues, value.(float64))
+	}
 
 	currentInterval := Interval{lowerLimit: 0.0, upperLimit: 1.0}
 	fmt.Println(currentInterval)
 
-	for idx, letter := range originalTextBytes {
+	for _, letter := range originalTextBytes {
 		// break up currentInterval into sub intervals
 		loopingLower := currentInterval.lowerLimit
 		loopingUpper := currentInterval.upperLimit
@@ -48,23 +48,25 @@ func main() {
 
 		intervalsToTest := []Interval{}
 
-		for jdx := 0; jdx < len(probabilityValues)-1; jdk++ {
-			intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower + probabilityValues[jdx]*loopingLength, upperLimit: loopingLower + probabilityValues[jdx]*loopingLength + probabilityValues[jdx-1]*loopingLength})
-			loopingLower += probabilityValues[jdx]
+		intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower, upperLimit: loopingLower + probabilityValues[0]*loopingLength})
+
+		for jdx := 0; jdx < len(probabilityValues)-1; jdx++ {
+			intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower + probabilityValues[jdx]*loopingLength, upperLimit: loopingLower + probabilityValues[jdx]*loopingLength + probabilityValues[jdx+1]*loopingLength})
 		}
 
 		// determine which one most closely fits current letter's probability
-		var bestFit Interval = nil
-		for _, value := range intervalsToTest {
-			if bestFit == nil {
-				bestFit = value
-			} else if bestFit.lowerLimit < value.lowerLimit && bestFit.upperLimit > value.upperLimit {
-				bestFit = value
+		indexOfProbability := -1
+		for jdx := 0; jdx < len(probabilityKeys); jdx++ {
+			if probabilityKeys[jdx] == string(letter) {
+				indexOfProbability = jdx
+				break
 			}
 		}
 
-		currentInterval = bestFit
+		currentInterval = intervalsToTest[indexOfProbability]
 	}
 
-	fmt.Printf("Your magic interval is:  %@V", currentInterval)
+	// fmt.Printf("Your magic interval is:  %@V", currentInterval)
+	encodedDocument := (currentInterval.upperLimit + currentInterval.lowerLimit) / 2.0
+	fmt.Println("Your magic number is: ", encodedDocument)
 }
