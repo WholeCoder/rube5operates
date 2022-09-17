@@ -66,7 +66,7 @@ func main() {
 		fmt.Println("currentInterval.lowerLimit ==", currentInterval.lowerLimit)
 	}
 
-	fmt.Printf("Your magic interval is:  %@V", currentInterval)
+	fmt.Printf("Your magic interval is:  %#V", currentInterval)
 	encodedDocument := (currentInterval.upperLimit + currentInterval.lowerLimit) / 2.0
 	fmt.Println("\nYour magic number is: ", encodedDocument)
 }
