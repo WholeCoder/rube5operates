@@ -44,10 +44,13 @@ func main() {
 		loopingLower := currentInterval.lowerLimit
 		loopingUpper := currentInterval.upperLimit
 
+		loopingLength := loopingUpper - loopingLower
+
 		intervalsToTest := []Interval{}
 
 		for jdx := 0; jdx < len(probabilityValues)-1; jdk++ {
-			intervalsToTest = append(intervalsToTest, Interval{lowerLimit: probabilityValues[jdx], upperLimit: probabilityValues[jdx-1]})
+			intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower + probabilityValues[jdx]*loopingLength, upperLimit: loopingLower + probabilityValues[jdx-1]*loopingLength})
+			loopingLower += probabilityValues[jdx]
 		}
 
 		// determine which one most closely fits current letter's probability
@@ -55,10 +58,13 @@ func main() {
 		for _, value := range intervalsToTest {
 			if bestFit == nil {
 				bestFit = value
-			} else if 
+			} else if bestFit.lowerLimit < value.lowerLimit && bestFit.upperLimit > value.upperLimit {
+				bestFit = value
+			}
 		}
 
-		// "expand" the the found interval and update the currentInterval with the new infomation
+		currentInterval = bestFit
 	}
 
+	fmt.Printf("Your magic interval is:  %@V", currentInterval)
 }
