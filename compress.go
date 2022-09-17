@@ -41,17 +41,16 @@ func main() {
 
 	for _, letter := range originalTextBytes {
 		// break up currentInterval into sub intervals
-		loopingLower := currentInterval.lowerLimit
 		loopingUpper := currentInterval.upperLimit
+		loopingLower := currentInterval.lowerLimit
 
 		loopingLength := loopingUpper - loopingLower
 
 		intervalsToTest := []Interval{}
 
-		intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower, upperLimit: loopingLower + probabilityValues[0]*loopingLength})
-
-		for jdx := 0; jdx < len(probabilityValues)-1; jdx++ {
-			intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower + probabilityValues[jdx]*loopingLength, upperLimit: loopingLower + probabilityValues[jdx]*loopingLength + probabilityValues[jdx+1]*loopingLength})
+		for jdx := 0; jdx < len(probabilityValues); jdx++ {
+			intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower, upperLimit: loopingLower + probabilityValues[jdx]*loopingLength})
+			loopingLower += loopingLength * probabilityValues[jdx]
 		}
 
 		// determine which one most closely fits current letter's probability
@@ -64,9 +63,10 @@ func main() {
 		}
 
 		currentInterval = intervalsToTest[indexOfProbability]
+		fmt.Println("currentInterval.lowerLimit ==", currentInterval.lowerLimit)
 	}
 
-	// fmt.Printf("Your magic interval is:  %@V", currentInterval)
+	fmt.Printf("Your magic interval is:  %@V", currentInterval)
 	encodedDocument := (currentInterval.upperLimit + currentInterval.lowerLimit) / 2.0
-	fmt.Println("Your magic number is: ", encodedDocument)
+	fmt.Println("\nYour magic number is: ", encodedDocument)
 }
