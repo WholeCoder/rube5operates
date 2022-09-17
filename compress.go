@@ -30,11 +30,11 @@ func main() {
 	})
 
 	probabilityKeys := hashForDecompression.Keys()
-	probabilityValues := []float64{}
-	for _, key := range probabilityKeys {
-		value, _ := probabilityKeys.Get(key)
-		probabilityValues = append(probabilityValues, value)
-	}
+	probabilityValues := hashForDecompression.Values()
+	//for _, key := range probabilityKeys {
+	//	value, _ := probabilityKeys.Get(key)
+	//	probabilityValues = append(probabilityValues, value)
+	//
 
 	currentInterval := Interval{lowerLimit: 0.0, upperLimit: 1.0}
 	fmt.Println(currentInterval)
@@ -49,7 +49,7 @@ func main() {
 		intervalsToTest := []Interval{}
 
 		for jdx := 0; jdx < len(probabilityValues)-1; jdk++ {
-			intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower + probabilityValues[jdx]*loopingLength, upperLimit: loopingLower + probabilityValues[jdx-1]*loopingLength})
+			intervalsToTest = append(intervalsToTest, Interval{lowerLimit: loopingLower + probabilityValues[jdx]*loopingLength, upperLimit: loopingLower + probabilityValues[jdx]*loopingLength + probabilityValues[jdx-1]*loopingLength})
 			loopingLower += probabilityValues[jdx]
 		}
 
