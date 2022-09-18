@@ -20,9 +20,6 @@ func main() {
 	}
 	fmt.Println(originalTextBytes)
 
-	probDistributionAndMagicNumber := InitNewByteset([]byte{})
-	fmt.Println(probDistributionAndMagicNumber)
-
 	hashForDecompression := initFrequencyHashWithFloat64ForValues(os.Args[1])
 
 	hashForDecompression.Sort(func(a *orderedmap.Pair, b *orderedmap.Pair) bool {

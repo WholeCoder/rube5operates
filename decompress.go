@@ -18,7 +18,7 @@ func main() {
 	fmt.Println(alphabet)
 	fmt.Println(pdistribution)
 
-	compressedDocument := 0.47424349188804626
+	compressedDocument := 0.785 //0.764005 // 0.47424349188804626
 	fmt.Println(compressedDocument)
 
 	currentInterval := Interval{lowerLimit: 0.0, upperLimit: 1.0}
