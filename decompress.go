@@ -10,15 +10,15 @@ type Interval struct {
 }
 
 func main() {
-	message := "BBAABA"
+	message := "BBBAABAABA BBAABAABAB"
 
-	alphabet := []byte{byte('A'), byte('B')}
-	pdistribution := []float64{3.0 / 6.0, 3.0 / 6.0}
+	alphabet := []byte{byte('A'), byte('B'), byte(' ')}
+	pdistribution := []float64{1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0}
 
 	fmt.Println(alphabet)
 	fmt.Println(pdistribution)
 
-	compressedDocument := 0.785 //0.764005 // 0.47424349188804626
+	compressedDocument := 0.48291785205218946 //0.8933463096618652 //0.78662109375 //0.764005 // 0.47424349188804626
 	fmt.Println(compressedDocument)
 
 	currentInterval := Interval{lowerLimit: 0.0, upperLimit: 1.0}
