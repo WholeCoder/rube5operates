@@ -1,7 +1,11 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
+	"io/ioutil"
+	"math"
+	"os"
 )
 
 type Interval struct {
@@ -10,7 +14,16 @@ type Interval struct {
 }
 
 func main() {
-	message := "BBBAABAABA BBAABAABAB"
+
+	readInBytes, err := ioutil.ReadFile(os.Args[1])
+	if err != nil {
+		panic(err)
+	}
+
+	probabilityKeysMarshalledLength := uint64(binary.BigEndian.Uint64(readInBytes[:8]))
+
+	var s2 string = string(readInBytes[8 : probabilityKeysMarshalledLength+8])
+	var probabilityKeys := json.Unmarshal([]byte(s2), &
 
 	alphabet := []byte{byte('A'), byte('B'), byte(' ')}
 	pdistribution := []float64{1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0}
@@ -24,7 +37,7 @@ func main() {
 	currentInterval := Interval{lowerLimit: 0.0, upperLimit: 1.0}
 	encoding := ""
 
-	for _, _ = range message {
+	for count := 0; count < messageLength; count++ {
 		loopingUpper := currentInterval.upperLimit
 		loopingLower := currentInterval.lowerLimit
 
@@ -53,4 +66,10 @@ func main() {
 	}
 
 	fmt.Println("\n\nDecoded: ", encoding, "\n")
+}
+
+func Float64frombytes(bytes []byte) float64 {
+	bits := binary.BigEndian.Uint64(bytes)
+	float := math.Float64frombits(bits)
+	return float
 }
