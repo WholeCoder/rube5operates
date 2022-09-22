@@ -53,7 +53,7 @@ func main() {
 	currentInterval := Interval{lowerLimit: 0.0, upperLimit: 1.0}
 	encoding := ""
 
-	for count := 0; count < messageLength; count++ {
+	for count := 0; count < int(messageLength); count++ {
 		loopingUpper := currentInterval.upperLimit
 		loopingLower := currentInterval.lowerLimit
 
