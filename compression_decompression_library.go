@@ -13,23 +13,23 @@ import (
 // map[string]string
 func compressText(encodingHash *orderedmap.OrderedMap, originalText string) ([]byte, int, int) { // compressed, byteCount, bitCount
 	compressed := InitNewByteset(make([]byte, 1))
-    countOfBits := 0
-    lastByte := 1
+	countOfBits := 0
+	lastByte := 1
 	for _, letter := range originalText {
 		value, exists := (*encodingHash).Get(string(letter))
 
 		if exists {
-            for _,zero_or_one_string := range value.(string) {
-		        compressed.SetBit(countOfBits, string(zero_or_one_string) == "1")
-                countOfBits++;
-                if countOfBits / 8 == lastByte {
-                    lastByte++
-                    compressed = append(compressed, byte(0))
-                }
+			for _, zero_or_one_string := range value.(string) {
+				compressed.SetBit(countOfBits, string(zero_or_one_string) == "1")
+				countOfBits++
+				if countOfBits/8 == lastByte {
+					lastByte++
+					compressed = append(compressed, byte(0))
+				}
 
-            }
-	    }
-    }
+			}
+		}
+	}
 
 	return compressed, lastByte, countOfBits
 }
