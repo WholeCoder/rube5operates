@@ -21,6 +21,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	messageLength := len(originalTextBytes)
+
 	//originalTextBytes := []byte("BBBAABAABA BBAABAABAB")
 	fmt.Println(originalTextBytes)
 
@@ -103,12 +106,14 @@ func main() {
 	//  decimal enocoding of the text
 	byteEncodedDecimalCodedDocument := float64ToByte(encodedDocument)
 
+	messageLengthMarshalled := getBytesForInt(messageLength)
 	outputSlice := []byte{}
 	outputSlice = append(outputSlice, probabilityKeysMarshalledLength...)
 	outputSlice = append(outputSlice, probabilityKeysMarshalled...)
 	outputSlice = append(outputSlice, probabilityValuesMarshalledLength...)
 	outputSlice = append(outputSlice, probabilityValuesMarshalled...)
 	outputSlice = append(outputSlice, byteEncodedDecimalCodedDocument...)
+	outputSlice = append(outputSlice, messageLengthMarshalled...)
 
 	file, err := os.OpenFile(
 		os.Args[1]+".comp",

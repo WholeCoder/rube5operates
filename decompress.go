@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"math"
@@ -23,16 +24,31 @@ func main() {
 	probabilityKeysMarshalledLength := uint64(binary.BigEndian.Uint64(readInBytes[:8]))
 
 	var s2 string = string(readInBytes[8 : probabilityKeysMarshalledLength+8])
-	var probabilityKeys := json.Unmarshal([]byte(s2), &
+	var probabilityKeys = []string{}
+	err = json.Unmarshal([]byte(s2), &probabilityKeys)
+	if err != nil {
+		panic(err)
+	}
 
-	alphabet := []byte{byte('A'), byte('B'), byte(' ')}
-	pdistribution := []float64{1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0}
+	probabilityValuesMarshalledLength := uint64(binary.BigEndian.Uint64(readInBytes[probabilityKeysMarshalledLength+8 : probabilityKeysMarshalledLength+8+8]))
+
+	var s3 string = string(readInBytes[probabilityKeysMarshalledLength+8+8 : probabilityKeysMarshalledLength+8+8+probabilityValuesMarshalledLength])
+	var probabilityValues = []float64{}
+	err = json.Unmarshal([]byte(s3), &probabilityValues)
+	if err != nil {
+		panic(err)
+	}
+
+	alphabet := probabilityKeys        // []byte{byte('A'), byte('B'), byte(' ')}
+	pdistribution := probabilityValues // []float64{1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0}
 
 	fmt.Println(alphabet)
 	fmt.Println(pdistribution)
 
-	compressedDocument := 0.48291785205218946 //0.8933463096618652 //0.78662109375 //0.764005 // 0.47424349188804626
+	compressedDocument := Float64frombytes(readInBytes[probabilityKeysMarshalledLength+8+8+probabilityValuesMarshalledLength : probabilityKeysMarshalledLength+8+8+probabilityValuesMarshalledLength+8]) // 0.48291785205218946 //0.8933463096618652 //0.78662109375 //0.764005 // 0.47424349188804626
 	fmt.Println(compressedDocument)
+
+	messageLength := uint64(binary.BigEndian.Uint64(readInBytes[probabilityKeysMarshalledLength+8+8+probabilityValuesMarshalledLength+8 : probabilityKeysMarshalledLength+8+8+probabilityValuesMarshalledLength+8+8]))
 
 	currentInterval := Interval{lowerLimit: 0.0, upperLimit: 1.0}
 	encoding := ""
