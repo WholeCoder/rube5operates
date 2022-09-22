@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"log"
 	"math"
 	"os"
 	"sort"
@@ -101,6 +102,29 @@ func main() {
 	probabilityValuesMarshalledLength := getBytesForInt(len(probabilityValuesMarshalled))
 	//  decimal enocoding of the text
 	byteEncodedDecimalCodedDocument := float64ToByte(encodedDocument)
+
+	outputSlice := []byte{}
+	outputSlice = append(outputSlice, probabilityKeysMarshalledLength...)
+	outputSlice = append(outputSlice, probabilityKeysMarshalled...)
+	outputSlice = append(outputSlice, probabilityValuesMarshalledLength...)
+	outputSlice = append(outputSlice, probabilityValuesMarshalled...)
+	outputSlice = append(outputSlice, byteEncodedDecimalCodedDocument...)
+
+	file, err := os.OpenFile(
+		os.Args[1]+".comp",
+		os.O_WRONLY|os.O_TRUNC|os.O_CREATE,
+		0666,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	bytesWritten, err := file.Write(outputSlice)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Wrote %d bytes.\n", bytesWritten)
+
 }
 
 func float64ToByte(f float64) []byte {
