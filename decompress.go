@@ -57,6 +57,8 @@ func main() {
 		loopingUpper := currentInterval.upperLimit
 		loopingLower := currentInterval.lowerLimit
 
+		fmt.Println(count, "\tinterval = [", loopingLower, ",", loopingUpper, "]")
+
 		loopingLength := loopingUpper - loopingLower
 
 		intervalsToTest := []Interval{}
@@ -68,9 +70,10 @@ func main() {
 
 		foundInterval := Interval{lowerLimit: -1.0, upperLimit: -1.0}
 		for i := 0; i < len(intervalsToTest); i++ {
-			if compressedDocument > intervalsToTest[i].lowerLimit && compressedDocument < intervalsToTest[i].upperLimit {
+			if compressedDocument >= intervalsToTest[i].lowerLimit && compressedDocument < intervalsToTest[i].upperLimit {
 				foundInterval = intervalsToTest[i]
 				encoding += string(alphabet[i])
+				fmt.Println("\tdecompressed a: ", alphabet[i])
 				break
 			}
 		}
