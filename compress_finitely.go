@@ -4,36 +4,37 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 func main() {
 	precision := 32
-	whole := math.Pos(2, precision)
+	whole := int64(math.Pow(2, float64(precision)))
 	half := whole / 2
 	quarter := whole / 4
 
 	n := 1
-	X := []byte{'A', 'B'}
+	//X := []byte{'A', 'B'}
 	r := []byte{2, 2}
 	R := 0
 	for i := 0; i <= n; i++ {
-		R += r[i]
+		R += int(r[i])
 	}
-	p = []float64{}
+	p := []float64{}
 	for i := 0; i <= n; i++ {
-		p = append(p, float64(r[i])/R)
+		p = append(p, float64(r[i])/float64(R))
 	}
-	EOF := 0
-	x = "BABAB" + string([]byte{0})
+	//EOF := 0
+	x := "BABAB" + string([]byte{0})
 	k := 5
 
-	c = []byte{0}
+	c := []byte{0}
 	for j := 1; j <= n; j++ {
 		sum := 0
 		for i := 1; i <= j-1; j++ {
-			sum += r[i]
+			sum += int(r[i])
 		}
-		c = append(c, sum)
+		c = append(c, byte(sum))
 	}
 
 	d := []byte{}
@@ -41,16 +42,16 @@ func main() {
 		d = append(d, c[j]+r[j])
 	}
 
-
 	// algorithm starts
 	s := 0
 	// x is string input
-	a := 0; b := whole
+	var a int64 = 0
+	b := whole
 
-	for i := 1; i <= k+1: i++ {
+	for i := 1; i <= k+1; i++ {
 		w := b - a
-		b = a + math.Round(w*d[i]/R) // change - d[i] wrong
-		a = a + math.Round(w*c[i]/R) // change - c[i] wrong
+		b = a + int64(math.Round(w*d[i]/R)) // change - d[i] wrong
+		a = a + int64(math.Round(w*c[i]/R)) // change - c[i] wrong
 		for b < half || a > half {
 			if b < half {
 				fmt.Println(0)
@@ -58,26 +59,29 @@ func main() {
 					fmt.Println(1)
 				}
 				s = 0
-				a = 2*a; b = 2*b
+				a = 2 * a
+				b = 2 * b
 			} else if a > half {
 				fmt.Println(1)
 				for sidx := 0; sidx < s; sidx++ {
 					fmt.Println(0)
 				}
 				s = 0
-				a = 2*(a - half); b = 2*(b-half)
+				a = 2 * (a - half)
+				b = 2 * (b - half)
 			}
 		}
 		for a > quarter && b < 3*quarter {
-				s = s + 1
-				a = 2*(a - quarter); b = 2*(b-quarter)
+			s = s + 1
+			a = 2 * (a - quarter)
+			b = 2 * (b - quarter)
 		}
 	}
-	
+
 	s = s + 1
 	if a <= quarter {
 		fmt.Println(0)
-		for i := 0 ;i < s; i++ {
+		for i := 0; i < s; i++ {
 			fmt.Println(1)
 		}
 	} else {
@@ -86,6 +90,6 @@ func main() {
 			fmt.Println(0)
 		}
 	}
-	
+
 	fmt.Println("Hello Universe!")
 }
