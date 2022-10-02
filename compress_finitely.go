@@ -47,7 +47,7 @@ func main() {
 	// x is string input
 	a := 0; b := whole
 
-	for i := 1; i <= k+1 {
+	for i := 1; i <= k+1: i++ {
 		w := b - a
 		b = a + math.Round(w*d[i]/R) // change - d[i] wrong
 		a = a + math.Round(w*c[i]/R) // change - c[i] wrong
@@ -57,6 +57,8 @@ func main() {
 				for sidx := 0; sidx < s; sidx++ {
 					fmt.Println(1)
 				}
+				s = 0
+				a = 2*a; b = 2*b
 			} else if a > half {
 				fmt.Println(1)
 				for sidx := 0; sidx < s; sidx++ {
@@ -65,12 +67,13 @@ func main() {
 				s = 0
 				a = 2*(a - half); b = 2*(b-half)
 			}
-			for a > quarter && b < 3*quarter {
+		}
+		for a > quarter && b < 3*quarter {
 				s = s + 1
 				a = 2*(a - quarter); b = 2*(b-quarter)
-			}
 		}
 	}
+	
 	s = s + 1
 	if a <= quarter {
 		fmt.Println(0)
@@ -83,6 +86,6 @@ func main() {
 			fmt.Println(0)
 		}
 	}
-	}
+	
 	fmt.Println("Hello Universe!")
 }
