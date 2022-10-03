@@ -50,8 +50,8 @@ func main() {
 
 	for i := 1; i <= k+1; i++ {
 		w := b - a
-		b = a + int64(math.Round(w*d[i]/R)) // change - d[i] wrong
-		a = a + int64(math.Round(w*c[i]/R)) // change - c[i] wrong
+		b = a + int64(math.Round(w*d_x_i(d, X, x[i])/R)) // change - d[i] wrong
+		a = a + int64(math.Round(w*c_x_i(c, X, x[i])/R)) // change - c[i] wrong
 		for b < half || a > half {
 			if b < half {
 				fmt.Println(0)
@@ -91,5 +91,28 @@ func main() {
 		}
 	}
 
-	fmt.Println("Hello Universe!")
+}
+
+func d_x_i(d []byte, X []byte, x []string) byte {
+
+	for i := 0; i < len(X); i++ {
+		if X[i] == x {
+
+			return d[i]
+		}
+	}
+
+	panic("Can't find d in d_x_i() function!")
+}
+
+func c_x_i(c []byte, X []byte, x []string) byte {
+
+	for i := 0; i < len(X); i++ {
+		if X[i] == x {
+
+			return c[i]
+		}
+	}
+
+	panic("Can't find d in c_x_i() function!")
 }
