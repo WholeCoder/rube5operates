@@ -29,7 +29,7 @@ func main() {
 	for true {
 		for j := 0; j <= n; j++ {
 			w := b - a
-			b0 = a + int64(math.Round(w*d[0]/R))
+			b0 = a + int64(math.Round(w*d[j]/R))
 			a0 = a + int64(math.Round(w*c[j]/R))
 			if z >= a0 && z < b0 {
 				fmt.Println(j)
