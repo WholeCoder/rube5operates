@@ -25,8 +25,8 @@ func main() {
 		p = append(p, float64(r[i])/float64(R))
 	}
 	//EOF := 0
-	x := "BABAB" + string([]byte{0})
-	k := 5
+	x := "BABA" + string([]byte{0})
+	k := 4
 
 	c := []byte{0}
 	for j := 1; j <= n; j++ {
@@ -48,7 +48,7 @@ func main() {
 	var a int64 = 0
 	b := whole
 
-	for i := 1; i <= k+1; i++ {
+	for i := 1; i <= k+1; i++ { // k-1 was k+1 in algorithm - did this so it terminates
 		w := b - a
 		b = a + int64(math.Round(float64(w*d_x_i(d, X, x[i])/R))) // change - d[i] wrong
 		a = a + int64(math.Round(float64(w*c_x_i(c, X, x[i])/R))) // change - c[i] wrong
@@ -101,7 +101,7 @@ func d_x_i(d []byte, X []byte, x byte) int64 {
 			return int64(d[i])
 		}
 	}
-
+	fmt.Println("Condition is:  ", X, " containes ", x)
 	panic("Can't find d in d_x_i() function!")
 }
 
@@ -114,5 +114,6 @@ func c_x_i(c []byte, X []byte, x byte) int64 {
 		}
 	}
 
+	fmt.Println("Condition is:  ", X, " containes ", x)
 	panic("Can't find d in c_x_i() function!")
 }
