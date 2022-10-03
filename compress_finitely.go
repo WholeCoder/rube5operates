@@ -14,11 +14,11 @@ func main() {
 	quarter := whole / 4
 
 	n := 1
-	//X := []byte{'A', 'B'}
+	X := []byte{'A', 'B'}
 	r := []byte{2, 2}
-	R := 0
+	var R int64 = 0
 	for i := 0; i <= n; i++ {
-		R += int(r[i])
+		R += int64(r[i])
 	}
 	p := []float64{}
 	for i := 0; i <= n; i++ {
@@ -50,8 +50,8 @@ func main() {
 
 	for i := 1; i <= k+1; i++ {
 		w := b - a
-		b = a + int64(math.Round(w*d_x_i(d, X, x[i])/R)) // change - d[i] wrong
-		a = a + int64(math.Round(w*c_x_i(c, X, x[i])/R)) // change - c[i] wrong
+		b = a + int64(math.Round(float64(w*d_x_i(d, X, x[i])/R))) // change - d[i] wrong
+		a = a + int64(math.Round(float64(w*c_x_i(c, X, x[i])/R))) // change - c[i] wrong
 		for b < half || a > half {
 			if b < half {
 				fmt.Println(0)
@@ -93,24 +93,24 @@ func main() {
 
 }
 
-func d_x_i(d []byte, X []byte, x []string) byte {
+func d_x_i(d []byte, X []byte, x byte) int64 {
 
 	for i := 0; i < len(X); i++ {
 		if X[i] == x {
 
-			return d[i]
+			return int64(d[i])
 		}
 	}
 
 	panic("Can't find d in d_x_i() function!")
 }
 
-func c_x_i(c []byte, X []byte, x []string) byte {
+func c_x_i(c []byte, X []byte, x byte) int64 {
 
 	for i := 0; i < len(X); i++ {
 		if X[i] == x {
 
-			return c[i]
+			return int64(c[i])
 		}
 	}
 
