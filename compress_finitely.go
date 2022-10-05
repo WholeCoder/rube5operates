@@ -13,9 +13,9 @@ func main() {
 	half := whole / 2
 	quarter := whole / 4
 
-	n := 1
-	X := []byte{'A', 'B'}
-	r := []byte{2, 2}
+	n := 2
+	X := []byte{'A', 'B', 0}
+	r := []byte{2, 2, 1}
 	var R int64 = 0
 	for i := 0; i <= n; i++ {
 		R += int64(r[i])
@@ -31,12 +31,11 @@ func main() {
 	c := []byte{0}
 	for j := 1; j <= n; j++ {
 		sum := 0
-		for i := 1; i <= j-1; j++ {
+		for i := 1; i <= j-1; i++ {
 			sum += int(r[i])
 		}
 		c = append(c, byte(sum))
 	}
-
 	d := []byte{}
 	for j := 0; j <= n; j++ {
 		d = append(d, c[j]+r[j])
@@ -47,9 +46,12 @@ func main() {
 	// x is string input
 	var a int64 = 0
 	b := whole
-
 	for i := 1; i <= k+1; i++ { // k-1 was k+1 in algorithm - did this so it terminates
+		if x[i] == 0 {
+			break
+		}
 		w := b - a
+		fmt.Println("Looking for", string(x[i]))
 		b = a + int64(math.Round(float64(w*d_x_i(d, X, x[i])/R))) // change - d[i] wrong
 		a = a + int64(math.Round(float64(w*c_x_i(c, X, x[i])/R))) // change - c[i] wrong
 		for b < half || a > half {
